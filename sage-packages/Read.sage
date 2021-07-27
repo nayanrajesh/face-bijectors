@@ -1,4 +1,4 @@
-load('/home/nayan/Downloads/sage-9.3/KunzPoset.sage')
+load('/home/sage/sage-packages/KunzPoset.sage')
 def ReadPosets(m,d = None):
 	p = '/home/sage/data/
 	if d == None:
