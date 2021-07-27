@@ -212,8 +212,12 @@ def AllPosets(m,skeletons=None):
 			Q = BuildTree([Skeleton], m, Perm)
 			Ps = Ps+Q
 	T = [x for x in Ps if Diamond(x)]
-	Ps = T
-	return list(set(Ps + [Skeletons.pop()]))
+	L = [x for x in T if x.cardinality() ==m]
+	Ps = L
+	if skeletons:
+		return list(set(Ps))
+	else:
+		return list(set(Ps +[Skeletons.pop()]))
 	 
 
 
