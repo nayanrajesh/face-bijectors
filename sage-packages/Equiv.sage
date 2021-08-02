@@ -8,7 +8,7 @@ def insert (x, classes, relation):
 	return classes + [[x]]
 			
 #given a list and a relation, the function returns the list of equivalence classes
-def Equiv(initial, relation):
+def equiv(initial, relation):
 	equiv = []
 	for i in initial:
 		equiv = insert(i, equiv, relation)
@@ -49,8 +49,8 @@ def kunztoposet(kunzposets):
 
 
 #takes a list of kunz posets, classifies them based on equivalence classes and saves plots in different folders
-def Plot_Posets_Equivalence(kunzposets,m,  path = os.getcwd()):
-	P = posetequiv(kunztoposet(kunzposets))
+def Plot_Posets_Equivalence(posets,m,  path = os.getcwd()):
+	P = posetequiv(posets)
 	path = os.path.join(path, 'm'+str(m))
 	os.mkdir(path)
 	os.chdir(path)
