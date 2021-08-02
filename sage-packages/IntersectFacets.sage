@@ -52,6 +52,8 @@ def PossibleNPosets(m,n):
 
 def AllPosets(m):
 	Ps = []
+	P = Poset([[0..(m-1)], [[0,x] for x in [0..(m-1)]]])
+	Ps.append(P)
 	for i in range(1, m+2):
 		Ps = Ps + PossibleNPosets(m,i)
 	return list(set(Ps))
