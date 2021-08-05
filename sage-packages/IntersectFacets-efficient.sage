@@ -7,7 +7,10 @@ def FacetPosets(m):
 	return [x.poset for x in KunzPoset.ReadFacesFromNormaliz(face_lattice_file_path=os.path.join(p,'m'+str(m)+'facet.fac'), hplane_file_path=os.path.join(p,'m'+str(m)+'.out'))]
 
 def FacetRelations(m):
-        return [[x for x in P.relations() if x[0]!=0 and x[0]!=x[1]] for P in FacetPosets(m)]
+        return [([(a,b) for [a,b] in FacetPosets(m)[i].relations() if a!=0 and a!=b],i) for i in range(0,len(FacetPosets(m)))]
+
+
+
 
 
 
@@ -39,11 +42,9 @@ def PossibleNPosets(m,n):
 	Ps = []
 	for Rels in I:
 		NewRel = CombLists(Rels)
-		N = [x for x in NewRel if x[0]!=x[1]]
-		NewRel = N+[[0,x] for x in range(0,m)]
-		
-		if  DiGraph(N).is_directed_acyclic():
-		
+		N = [x for x in NewRel if x[0]!=x[1] ]+[[0,x] for x in range(0,m)]
+		NewRel = N
+		if 0==0:#if DiGraph(N).is_directed_acyclic():
 			P = Poset([[0..(m-1)], NewRel])
 			if Diamond(P):
 				Ps.append(P)

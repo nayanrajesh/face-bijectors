@@ -2,14 +2,17 @@ load('/home/nayan/Documents/Polymath/face-bijectors/sage-packages/Read.sage')
 load('/home/nayan/Documents/Polymath/face-bijectors/sage-packages/GeneratePosets.sage')
 load('/home/nayan/Documents/Polymath/face-bijectors/sage-packages/ToNumPy.sage')
 
+#def
+
+
 def FacetPosets(m):
 	p = '/home/nayan/Documents/Polymath/face-bijectors/data/'
 	return [x.poset for x in KunzPoset.ReadFacesFromNormaliz(face_lattice_file_path=os.path.join(p,'m'+str(m)+'facet.fac'), hplane_file_path=os.path.join(p,'m'+str(m)+'.out'))]
 
 def FacetRelations(m):
-        return [[x for x in P.relations() if x[0]!=0 and x[0]!=x[1]] for P in FacetPosets(m)]
-
-
+	X = [P.relations() for P in FacetPosets(m)]
+	Y = [((a,b) for [a,b] in F) for F in X]
+	return Y 
 
 
 def ValidNIntersections(FacetRel):
@@ -26,24 +29,26 @@ def ValidNIntersections(FacetRel):
 
 def PossibleNIntersections(m,n):
 	FacetRel = FacetRelations(m)
-	I = [x for x in Combin(FacetRel,n) if ValidNIntersections(x)]
+	I = [list(x) for x in Subsets(FacetRel,n) if ValidNIntersections(x)]
 	return I
 
 
 
 
-
+def CombTuples(TupleofTuples):
+	X = ()
+	for x in TupleofTuples:
+		X = X+x
+	return X
 
 def PossibleNPosets(m,n):
 	I = PossibleNIntersections(m,n)
 	Ps = []
 	for Rels in I:
-		NewRel = CombLists(Rels)
+		NewRel = CombTuples(Rels)
 		N = [x for x in NewRel if x[0]!=x[1]]
-		NewRel = N+[[0,x] for x in range(0,m)]
-		
-		if  DiGraph(N).is_directed_acyclic():
-		
+		NewRel = N
+		if DiGraph(N).is_directed_acyclic():
 			P = Poset([[0..(m-1)], NewRel])
 			if Diamond(P):
 				Ps.append(P)
